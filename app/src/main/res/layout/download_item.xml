@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/time_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/file_name_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="30sp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+
+        <ImageButton
+            android:id="@+id/start_pause_refresh_image_button"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:src="@drawable/ic_pause"
+            android:background="#00000000"
+            android:scaleType="fitCenter" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/progress_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/download_state_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="italic"
+                android:gravity="center" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="?android:attr/progressBarStyleHorizontal"/>
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/cancel_image_button"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:src="@mipmap/ic_x"
+            android:background="#00000000"
+            android:scaleType="fitCenter" />
+
+    </LinearLayout>
+
+</LinearLayout>
