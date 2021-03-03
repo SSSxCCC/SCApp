@@ -20,7 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WebActivity">
+        <activity android:name="com.sc.web.WebActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -32,11 +32,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DownloadActivity"
+            android:name="com.sc.download.DownloadActivity"
             android:launchMode="singleTask" />
 
         <service
-            android:name=".DownloadService"
+            android:name="com.sc.download.DownloadService"
             android:enabled="true"
             android:exported="true" />
     </application>

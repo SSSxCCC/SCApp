@@ -9,7 +9,8 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.sc.scapp.DownloadActivity.Companion.actionStart
+import com.sc.download.DownloadActivity.Companion.actionStart
+import com.sc.web.WebActivity
 
 class ProgramAdapter(private val programList: List<Program>) : RecyclerView.Adapter<ProgramAdapter.ViewHolder>() {
     private var context: Context? = null

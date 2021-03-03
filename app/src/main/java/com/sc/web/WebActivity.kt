@@ -1,4 +1,4 @@
-package com.sc.scapp
+package com.sc.web
 
 import android.Manifest
 import android.content.ComponentName
@@ -21,7 +21,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.sc.scapp.DownloadService.DownloadBinder
+import com.sc.download.DownloadService
+import com.sc.download.DownloadService.DownloadBinder
+import com.sc.scapp.R
 
 class WebActivity : AppCompatActivity() {
     private lateinit var webView: WebView

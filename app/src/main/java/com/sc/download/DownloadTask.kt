@@ -1,4 +1,4 @@
-package com.sc.scapp
+package com.sc.download
 
 import android.os.AsyncTask
 import android.os.Environment

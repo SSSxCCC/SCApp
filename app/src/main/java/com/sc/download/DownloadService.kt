@@ -1,4 +1,4 @@
-package com.sc.scapp
+package com.sc.download
 
 import android.app.Notification
 import android.app.NotificationManager
@@ -14,8 +14,7 @@ import android.os.IBinder
 import android.util.Log
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
-import com.sc.scapp.DownloadActivity
-import com.sc.scapp.DownloadService
+import com.sc.scapp.R
 import java.io.File
 import java.util.*
 

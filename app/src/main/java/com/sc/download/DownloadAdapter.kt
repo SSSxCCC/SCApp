@@ -1,4 +1,4 @@
-package com.sc.scapp
+package com.sc.download
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +8,8 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
-import com.sc.scapp.DownloadService.DownloadBinder
+import com.sc.download.DownloadService.DownloadBinder
+import com.sc.scapp.R
 import java.text.SimpleDateFormat
 import java.util.*
 

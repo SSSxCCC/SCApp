@@ -1,4 +1,4 @@
-package com.sc.scapp
+package com.sc.download
 
 interface DownloadListener {
     fun onProgress(url: String, downloadedLength: Long, contentLength: Long)

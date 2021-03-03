@@ -1,4 +1,4 @@
-package com.sc.scapp
+package com.sc.download
 
 import android.content.*
 import android.os.Bundle
@@ -9,7 +9,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.sc.scapp.DownloadService.DownloadBinder
+import com.sc.download.DownloadService.DownloadBinder
+import com.sc.scapp.R
 import java.util.*
 
 class DownloadActivity : AppCompatActivity() {

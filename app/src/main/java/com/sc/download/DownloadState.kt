@@ -1,4 +1,4 @@
-package com.sc.scapp
+package com.sc.download
 
 class DownloadState (  // 不包括url
         var downloadedLength: Long,
