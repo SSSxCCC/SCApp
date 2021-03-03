@@ -11,11 +11,13 @@
         android:id="@+id/start_record_screen_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textAllCaps="false"
         android:text="@string/start_record_screen" />
     <Button
         android:id="@+id/stop_record_screen_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textAllCaps="false"
         android:text="@string/stop_record_screen" />
 
 </LinearLayout>
