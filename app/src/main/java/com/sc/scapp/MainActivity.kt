@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         val programList = listOf(Program(R.string.file_manager, R.drawable.ic_file_manager), Program(R.string.notebook, R.drawable.ic_notebook),
                 Program(R.string.music, R.drawable.ic_music), Program(R.string.video, R.drawable.ic_video),
                 Program(R.string.web, R.drawable.ic_web), Program(R.string.download, R.drawable.ic_download),
-                Program(R.string.timer, R.drawable.ic_timer))
+                Program(R.string.timer, R.drawable.ic_timer), Program(R.string.screen_recorder, R.drawable.ic_screen_recorder))
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
         val layoutManager = GridLayoutManager(this, 2)
         recyclerView.layoutManager = layoutManager

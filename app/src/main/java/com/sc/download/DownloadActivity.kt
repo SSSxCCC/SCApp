@@ -130,7 +130,6 @@ class DownloadActivity : AppCompatActivity() {
     }
 
     companion object {
-        @JvmStatic
         fun actionStart(context: Context) {
             val intent = Intent(context, DownloadActivity::class.java)
             context.startActivity(intent)

@@ -9,11 +9,12 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.sc.download.DownloadActivity.Companion.actionStart
+import com.sc.download.DownloadActivity
+import com.sc.screenrecorder.ScreenRecorderActivity
 import com.sc.web.WebActivity
 
 class ProgramAdapter(private val programList: List<Program>) : RecyclerView.Adapter<ProgramAdapter.ViewHolder>() {
-    private var context: Context? = null
+    private lateinit var context: Context
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var cardView: CardView = itemView as CardView
@@ -22,25 +23,21 @@ class ProgramAdapter(private val programList: List<Program>) : RecyclerView.Adap
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        if (context == null) context = parent.context
+        context = parent.context
         val view = LayoutInflater.from(context).inflate(R.layout.program_item, parent, false)
         val viewHolder = ViewHolder(view)
-        viewHolder.cardView.setOnClickListener { view ->
+        viewHolder.cardView.setOnClickListener {
             val position = viewHolder.adapterPosition
             val program = programList[position]
             when (program.nameId) {
-                R.string.file_manager -> {
-                }
-                R.string.notebook -> {
-                }
-                R.string.music -> {
-                }
-                R.string.video -> {
-                }
-                R.string.web -> WebActivity.actionStart(view.context)
-                R.string.download -> actionStart(view.context)
-                R.string.timer -> {
-                }
+                R.string.file_manager -> { }
+                R.string.notebook -> { }
+                R.string.music -> { }
+                R.string.video -> { }
+                R.string.web -> WebActivity.actionStart(context)
+                R.string.download -> DownloadActivity.actionStart(context)
+                R.string.timer -> { }
+                R.string.screen_recorder -> ScreenRecorderActivity.actionStart(context)
             }
         }
         return viewHolder

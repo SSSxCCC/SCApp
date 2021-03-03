@@ -39,6 +39,8 @@
             android:name="com.sc.download.DownloadService"
             android:enabled="true"
             android:exported="true" />
+
+        <activity android:name="com.sc.screenrecorder.ScreenRecorderActivity" />
     </application>
 
 </manifest>
