@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">SC App</string>
 
+    <!-- MainActivity -->
     <string name="file_manager">File Manager</string>
     <string name="notebook">Notebook</string>
     <string name="music">Music</string>
@@ -9,13 +10,15 @@
     <string name="download">Download</string>
     <string name="timer">Timer</string>
     <string name="screen_recorder">Screen Recorder</string>
-
     <string name="setting">Setting</string>
     <string name="about">About</string>
+
+    <!-- Web -->
     <string name="refresh">Refresh</string>
     <string name="go_back">Go Back</string>
     <string name="go_forward">Go Forward</string>
 
+    <!-- Download -->
     <string name="download_task_is_running">Download task is running</string>
     <string name="downloading">downloading…</string>
     <string name="download_success">Download Success</string>
@@ -29,4 +32,8 @@
     <string name="confirm_refresh_download_task">Confirm refresh download task</string>
     <string name="re_download">Re-download</string>
     <string name="continue_download">Continue download</string>
+
+    <!-- ScreenRecorder -->
+    <string name="start_record_screen">Start Record Screen</string>
+    <string name="stop_record_screen">Stop Record Screen</string>
 </resources>
