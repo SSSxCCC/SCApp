@@ -103,15 +103,17 @@ class DownloadActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_download)
+
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-        val actionBar = supportActionBar
-        actionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(this@DownloadActivity)
         downloadAdapter = DownloadAdapter(downloadStateList)
         recyclerView.adapter = downloadAdapter
         recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+
         val bindIntent = Intent(this, DownloadService::class.java)
         bindService(bindIntent, serviceConnection, BIND_AUTO_CREATE)
     }

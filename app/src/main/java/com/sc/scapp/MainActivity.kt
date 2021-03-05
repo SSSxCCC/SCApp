@@ -20,14 +20,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-        drawerLayout = findViewById(R.id.drawer_layout)
-        val actionBar = supportActionBar
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true)
-            actionBar.setHomeAsUpIndicator(R.mipmap.ic_menu)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.mipmap.ic_menu)
         }
+
+        drawerLayout = findViewById(R.id.drawer_layout)
+
         val navView = findViewById<NavigationView>(R.id.nav_view)
         navView.setCheckedItem(R.id.about)
         navView.setNavigationItemSelectedListener { item ->
