@@ -84,7 +84,6 @@ class WebActivity : AppCompatActivity() {
             } else {
                 download()
             }
-            webView.goBack()
         })
     }
 
