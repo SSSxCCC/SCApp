@@ -24,7 +24,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.sc.web.WebActivity">
+        <activity
+            android:name="com.sc.web.WebActivity"
+            android:launchMode="singleTask"
+            android:taskAffinity="com.sc.web"
+            android:label="@string/web"
+            android:icon="@drawable/ic_web">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -38,7 +43,10 @@
 
         <activity
             android:name="com.sc.download.DownloadActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:taskAffinity="com.sc.download"
+            android:label="@string/download"
+            android:icon="@drawable/ic_download" />
 
         <service
             android:name="com.sc.download.DownloadService"
@@ -46,7 +54,10 @@
             android:exported="true" />
 
         <activity android:name="com.sc.screenrecorder.ScreenRecorderActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:taskAffinity="com.sc.screenrecorder"
+            android:label="@string/screen_recorder"
+            android:icon="@drawable/ic_screen_recorder" />
 
         <service
             android:name="com.sc.screenrecorder.ScreenRecorderService"
