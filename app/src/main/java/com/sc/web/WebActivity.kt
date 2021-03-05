@@ -26,21 +26,21 @@ import com.sc.download.DownloadService.DownloadBinder
 import com.sc.scapp.R
 
 class WebActivity : AppCompatActivity() {
+
     private lateinit var webView: WebView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web)
+
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-        val actionBar = supportActionBar
-        if (actionBar == null) {
-            Toast.makeText(this, "ERROR: actionBar is null", Toast.LENGTH_SHORT).show()
-            finish()
-            return
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.mipmap.ic_x)
+            setDisplayShowTitleEnabled(false)
         }
-        actionBar.setDisplayHomeAsUpEnabled(true)
-        actionBar.setHomeAsUpIndicator(R.mipmap.ic_x)
-        actionBar.setDisplayShowTitleEnabled(false)
+
         val urlEditText = findViewById<EditText>(R.id.url_edit_text)
         webView = findViewById(R.id.web_view)
         webView.settings.javaScriptEnabled = true
@@ -49,15 +49,19 @@ class WebActivity : AppCompatActivity() {
                 super.onPageStarted(view, url, favicon)
                 urlEditText.setText(url)
             }
-
-            // 这个也必须要，否则有时url不能正确显示
-            override fun onPageFinished(view: WebView, url: String) {
+            override fun onPageFinished(view: WebView, url: String) {  // 这个也必须要，否则有时url不能正确显示
                 super.onPageFinished(view, url)
                 urlEditText.setText(url)
             }
         }
+
         val uri = intent.data
-        if (uri == null) webView.loadUrl("https://www.baidu.com/") else webView.loadUrl(uri.toString())
+        if (uri == null) {
+            webView.loadUrl("https://www.baidu.com/")
+        } else {
+            webView.loadUrl(uri.toString())
+        }
+
         val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         // 点击WebView时隐藏输入法并取消对urlEditText的焦距
         webView.setOnTouchListener { v, event ->
@@ -71,11 +75,12 @@ class WebActivity : AppCompatActivity() {
             webView.loadUrl(urlEditText.text.toString())
             false
         }
+        // 处理点击下载文件的情况
         webView.setDownloadListener(DownloadListener { url, userAgent, contentDisposition, mimetype, contentLength ->
             this@WebActivity.url = url
             this@WebActivity.contentLength = contentLength
             if (ContextCompat.checkSelfPermission(this@WebActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this@WebActivity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
+                ActivityCompat.requestPermissions(this@WebActivity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_CODE_DOWNLAOD)
             } else {
                 download()
             }
@@ -85,6 +90,7 @@ class WebActivity : AppCompatActivity() {
 
     private var url: String? = null
     private var contentLength: Long = 0
+
     private fun download() {
         val intent = Intent(this, DownloadService::class.java)
         startService(intent)
@@ -94,14 +100,13 @@ class WebActivity : AppCompatActivity() {
                 downloadBinder.startDownload(url!!, contentLength)
                 unbindService(this)
             }
-
             override fun onServiceDisconnected(name: ComponentName) {}
         }, BIND_AUTO_CREATE)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
-            1 -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            REQUEST_CODE_DOWNLAOD -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 download()
             } else {
                 Toast.makeText(this, "You denied the permission", Toast.LENGTH_SHORT).show()
@@ -133,6 +138,9 @@ class WebActivity : AppCompatActivity() {
     }
 
     companion object {
+
+        private const val REQUEST_CODE_DOWNLAOD = 1
+
         fun actionStart(context: Context) {
             val intent = Intent(context, WebActivity::class.java)
             context.startActivity(intent)
