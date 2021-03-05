@@ -1,9 +1,6 @@
 package com.sc.download
 
-import android.app.Notification
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.Service
+import android.app.*
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.BitmapFactory
@@ -13,13 +10,14 @@ import android.os.Environment
 import android.os.IBinder
 import android.util.Log
 import android.widget.Toast
-import androidx.core.app.NotificationCompat
 import com.sc.scapp.R
 import java.io.File
 import java.util.*
 
 class DownloadService : Service() {
+
     private val urlDownloadTaskMap = HashMap<String, DownloadTask>()
+
     private val listener: DownloadListener = object : DownloadListener {
         override fun onProgress(url: String, downloadedLength: Long, contentLength: Long) {
             val progress = (downloadedLength * 100 / contentLength).toInt()
@@ -85,13 +83,22 @@ class DownloadService : Service() {
             return downloadState
         }
     }
+
     private val downloadBinder = DownloadBinder()
+
     private lateinit var pref: SharedPreferences
     private lateinit var prefEditor: SharedPreferences.Editor
+
+    private lateinit var notificationManager: NotificationManager
+
     override fun onCreate() {
         super.onCreate()
         pref = getSharedPreferences(DOWNLOAD_SHARED_PREFERENCE_NAME, MODE_PRIVATE)
         prefEditor = pref.edit()
+
+        notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        val channel = NotificationChannel("Download", "Download", NotificationManager.IMPORTANCE_HIGH)
+        notificationManager.createNotificationChannel(channel)
     }
 
     override fun onDestroy() {
@@ -193,25 +200,23 @@ class DownloadService : Service() {
         }
     }
 
-    private val notificationManager: NotificationManager
-        private get() = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-
     private fun getNotification(title: String, text: String?, progress: Int): Notification {
         val intent = Intent(this, DownloadActivity::class.java)
         val pi = PendingIntent.getActivity(this, 0, intent, 0)
-        val builder = NotificationCompat.Builder(this)
-        builder.setSmallIcon(R.drawable.ic_download)
-        builder.setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_download))
-        builder.setContentIntent(pi)
-        builder.setContentTitle(title)
-        builder.setAutoCancel(true)
-        if (text != null) {
-            builder.setContentText(text)
-        } else if (progress >= 0) {
-            builder.setContentText("$progress%")
-            builder.setProgress(100, progress, false)
+        return Notification.Builder(this, "Download").run {
+            setSmallIcon(R.drawable.ic_download)
+            setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_download))
+            setContentIntent(pi)
+            setContentTitle(title)
+            setAutoCancel(true)
+            if (text != null) {
+                setContentText(text)
+            } else if (progress >= 0) {
+                setContentText("$progress%")
+                setProgress(100, progress, false)
+            }
+            build()
         }
-        return builder.build()
     }
 
     companion object {
