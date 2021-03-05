@@ -2,6 +2,7 @@ package com.sc.download
 
 import android.os.AsyncTask
 import android.os.Environment
+import android.util.Log
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.File
@@ -26,8 +27,8 @@ class DownloadTask(private val listener: DownloadListener) : AsyncTask<String?, 
         try {
             downloadedLength = 0
             val fileName = downloadUrl!!.substring(downloadUrl!!.lastIndexOf("/"))
-            val directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path
-            file = File(directory + fileName)
+            val directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+            file = File(directory, fileName)
             if (file.exists()) {
                 downloadedLength = file.length()
             }
