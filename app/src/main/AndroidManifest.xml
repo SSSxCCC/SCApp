@@ -19,17 +19,21 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <activity
+            android:name="com.sc.settings.SettingsActivity"
+            android:label="@string/settings"
+            android:launchMode="singleTask" />
+
+        <activity
             android:name="com.sc.web.WebActivity"
-            android:launchMode="singleTask"
-            android:taskAffinity="com.sc.web"
+            android:icon="@drawable/ic_web"
             android:label="@string/web"
-            android:icon="@drawable/ic_web">
+            android:launchMode="singleTask"
+            android:taskAffinity="com.sc.web">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -43,21 +47,22 @@
 
         <activity
             android:name="com.sc.download.DownloadActivity"
-            android:launchMode="singleTask"
-            android:taskAffinity="com.sc.download"
+            android:icon="@drawable/ic_download"
             android:label="@string/download"
-            android:icon="@drawable/ic_download" />
+            android:launchMode="singleTask"
+            android:taskAffinity="com.sc.download" />
 
         <service
             android:name="com.sc.download.DownloadService"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name="com.sc.screenrecorder.ScreenRecorderActivity"
-            android:launchMode="singleTask"
-            android:taskAffinity="com.sc.screenrecorder"
+        <activity
+            android:name="com.sc.screenrecorder.ScreenRecorderActivity"
+            android:icon="@drawable/ic_screen_recorder"
             android:label="@string/screen_recorder"
-            android:icon="@drawable/ic_screen_recorder" />
+            android:launchMode="singleTask"
+            android:taskAffinity="com.sc.screenrecorder" />
 
         <service
             android:name="com.sc.screenrecorder.ScreenRecorderService"

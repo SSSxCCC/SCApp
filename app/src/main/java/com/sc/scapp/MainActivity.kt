@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.sc.settings.SettingsActivity
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -34,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         navView.setCheckedItem(R.id.about)
         navView.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.setting -> Toast.makeText(this@MainActivity, "Setting!!!", Toast.LENGTH_SHORT).show()
+                R.id.setting -> SettingsActivity.actionStart(this)
                 R.id.about -> Toast.makeText(this@MainActivity, "About!!!", Toast.LENGTH_SHORT).show()
             }
             //drawerLayout.closeDrawers();
@@ -69,7 +70,7 @@ class MainActivity : AppCompatActivity() {
                 //Intent intent = new Intent(Intent.ACTION_VIEW);
                 //intent.setData(Uri.parse("https://www.baidu.com/"));
                 //startActivity(intent);
-                Toast.makeText(this, "setting", Toast.LENGTH_SHORT).show()
+                SettingsActivity.actionStart(this)
         }
         return true
     }
