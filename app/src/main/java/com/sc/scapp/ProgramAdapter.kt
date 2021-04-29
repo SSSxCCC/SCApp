@@ -10,6 +10,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sc.download.DownloadActivity
+import com.sc.media.MediaActivity
 import com.sc.screenrecorder.ScreenRecorderActivity
 import com.sc.web.WebActivity
 
@@ -32,8 +33,7 @@ class ProgramAdapter(private val programList: List<Program>) : RecyclerView.Adap
             when (program.nameId) {
                 R.string.file_manager -> { }
                 R.string.notebook -> { }
-                R.string.music -> { }
-                R.string.video -> { }
+                R.string.media -> { MediaActivity.actionStart(context) }
                 R.string.web -> WebActivity.actionStart(context)
                 R.string.download -> DownloadActivity.actionStart(context)
                 R.string.timer -> { }

@@ -19,6 +19,7 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -27,6 +28,12 @@
             android:name="com.sc.settings.SettingsActivity"
             android:label="@string/settings"
             android:launchMode="singleTask" />
+
+        <activity android:name="com.sc.media.MediaActivity"
+            android:icon="@drawable/ic_media"
+            android:label="@string/media"
+            android:launchMode="singleTask"
+            android:taskAffinity="com.sc.media" />
 
         <activity
             android:name="com.sc.web.WebActivity"
