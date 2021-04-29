@@ -29,11 +29,19 @@
             android:label="@string/settings"
             android:launchMode="singleTask" />
 
-        <activity android:name="com.sc.media.MediaActivity"
+        <activity
+            android:name="com.sc.media.MediaActivity"
             android:icon="@drawable/ic_media"
             android:label="@string/media"
             android:launchMode="singleTask"
-            android:taskAffinity="com.sc.media" />
+            android:taskAffinity="com.sc.media"
+            android:configChanges="orientation|screenSize"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+
+        <service
+            android:name="com.sc.media.MediaService"
+            android:enabled="true"
+            android:exported="false" />
 
         <activity
             android:name="com.sc.web.WebActivity"
