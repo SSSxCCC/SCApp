@@ -31,7 +31,7 @@ class ProgramAdapter(private val programList: List<Program>) : RecyclerView.Adap
             val position = viewHolder.adapterPosition
             val program = programList[position]
             when (program.nameId) {
-                R.string.file_manager -> { }
+                R.string.files -> { }
                 R.string.notebook -> { }
                 R.string.media -> { MediaActivity.actionStart(mContext) }
                 R.string.web -> WebActivity.actionStart(mContext)

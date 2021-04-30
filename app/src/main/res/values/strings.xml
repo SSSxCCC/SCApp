@@ -3,7 +3,7 @@
 
     <!-- MainActivity -->
     <string name="settings">Settings</string>
-    <string name="file_manager">File Manager</string>
+    <string name="files">Files</string>
     <string name="notebook">Notebook</string>
     <string name="media">Media</string>
     <string name="web">Web</string>
