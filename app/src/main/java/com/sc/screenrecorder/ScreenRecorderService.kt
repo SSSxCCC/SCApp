@@ -20,22 +20,18 @@ class ScreenRecorderService : Service() {
     private var mStarted = false
     private lateinit var mSaveDir: File
     private lateinit var mSaveFile: File
-    private lateinit var mMediaProjectionManager: MediaProjectionManager
     private lateinit var mMediaRecorder: MediaRecorder
     private lateinit var mMediaProjection: MediaProjection
     private lateinit var mVirtualDisplay: VirtualDisplay
 
-    override fun onCreate() {
-        super.onCreate()
-        mSaveDir = File(externalMediaDirs[0], "ScreenRecorder")
-        if (!mSaveDir.mkdirs()) Log.e(TAG, "Failed to create directory: $mSaveDir")
-        mMediaProjectionManager = getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
-        startForegroundNotification()
-    }
-
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         if (mStarted) return super.onStartCommand(intent, flags, startId)
         mStarted = true
+
+        mSaveDir = File(externalMediaDirs[0], "ScreenRecorder")
+        if (!mSaveDir.mkdirs()) Log.e(TAG, "Failed to create directory: $mSaveDir")
+        startForegroundNotification()
+
         mSaveFile = File(mSaveDir, SimpleDateFormat("yyyyMMddHHmmss").format(Date()) + ".mp4")
 
         val resultCode = intent.getIntExtra("resultCode", -1)
@@ -59,7 +55,8 @@ class ScreenRecorderService : Service() {
             start()
         }
 
-        mMediaProjection = mMediaProjectionManager.getMediaProjection(resultCode, resultData!!)
+        val mediaProjectionManager = getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
+        mMediaProjection = mediaProjectionManager.getMediaProjection(resultCode, resultData!!)
         mVirtualDisplay = mMediaProjection.createVirtualDisplay("scScreenRecorder", width, height, dpi,
                 DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR, mMediaRecorder.surface, null, null)
 
