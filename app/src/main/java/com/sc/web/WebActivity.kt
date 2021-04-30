@@ -26,8 +26,7 @@ import com.sc.download.DownloadService.DownloadBinder
 import com.sc.scapp.R
 
 class WebActivity : AppCompatActivity() {
-
-    private lateinit var webView: WebView
+    private lateinit var mWebView: WebView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,9 +41,9 @@ class WebActivity : AppCompatActivity() {
         }
 
         val urlEditText = findViewById<EditText>(R.id.url_edit_text)
-        webView = findViewById(R.id.web_view)
-        webView.settings.javaScriptEnabled = true
-        webView.webViewClient = object : WebViewClient() {
+        mWebView = findViewById(R.id.web_view)
+        mWebView.settings.javaScriptEnabled = true
+        mWebView.webViewClient = object : WebViewClient() {
             override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
                 urlEditText.setText(url)
@@ -57,14 +56,14 @@ class WebActivity : AppCompatActivity() {
 
         val uri = intent.data
         if (uri == null) {
-            webView.loadUrl("https://www.baidu.com/")
+            mWebView.loadUrl("https://www.baidu.com/")
         } else {
-            webView.loadUrl(uri.toString())
+            mWebView.loadUrl(uri.toString())
         }
 
         val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         // 点击WebView时隐藏输入法并取消对urlEditText的焦距
-        webView.setOnTouchListener { v, event ->
+        mWebView.setOnTouchListener { v, event ->
             inputMethodManager.hideSoftInputFromWindow(urlEditText.applicationWindowToken, 0)
             urlEditText.clearFocus()
             false
@@ -72,11 +71,11 @@ class WebActivity : AppCompatActivity() {
         // 点击输入法上的确认时隐藏输入法并跳转网页
         urlEditText.setOnEditorActionListener { textView, i, keyEvent ->
             inputMethodManager.hideSoftInputFromWindow(textView.applicationWindowToken, 0)
-            webView.loadUrl(urlEditText.text.toString())
+            mWebView.loadUrl(urlEditText.text.toString())
             false
         }
         // 处理点击下载文件的情况
-        webView.setDownloadListener(DownloadListener { url, userAgent, contentDisposition, mimetype, contentLength ->
+        mWebView.setDownloadListener(DownloadListener { url, userAgent, contentDisposition, mimetype, contentLength ->
             this@WebActivity.url = url
             this@WebActivity.contentLength = contentLength
             if (ContextCompat.checkSelfPermission(this@WebActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -121,16 +120,16 @@ class WebActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> finish()
-            R.id.refresh -> webView.reload()
-            R.id.go_back -> webView.goBack()
-            R.id.go_forward -> webView.goForward()
+            R.id.refresh -> mWebView.reload()
+            R.id.go_back -> mWebView.goBack()
+            R.id.go_forward -> mWebView.goForward()
         }
         return true
     }
 
     override fun onBackPressed() {
-        if (webView.canGoBack()) {
-            webView.goBack()
+        if (mWebView.canGoBack()) {
+            mWebView.goBack()
         } else {
             finish()
         }

@@ -17,27 +17,26 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ScreenRecorderService : Service() {
-
-    private var started = false
-    private lateinit var saveDir: File
-    private lateinit var saveFile: File
-    private lateinit var mediaProjectionManager: MediaProjectionManager
-    private lateinit var mediaRecorder: MediaRecorder
-    private lateinit var mediaProjection: MediaProjection
-    private lateinit var virtualDisplay: VirtualDisplay
+    private var mStarted = false
+    private lateinit var mSaveDir: File
+    private lateinit var mSaveFile: File
+    private lateinit var mMediaProjectionManager: MediaProjectionManager
+    private lateinit var mMediaRecorder: MediaRecorder
+    private lateinit var mMediaProjection: MediaProjection
+    private lateinit var mVirtualDisplay: VirtualDisplay
 
     override fun onCreate() {
         super.onCreate()
-        saveDir = File(externalMediaDirs[0], "ScreenRecorder")
-        if (!saveDir.mkdirs()) Log.e(TAG, "Failed to create directory: $saveDir")
-        mediaProjectionManager = getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
+        mSaveDir = File(externalMediaDirs[0], "ScreenRecorder")
+        if (!mSaveDir.mkdirs()) Log.e(TAG, "Failed to create directory: $mSaveDir")
+        mMediaProjectionManager = getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
         startForegroundNotification()
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        if (started) return super.onStartCommand(intent, flags, startId)
-        started = true
-        saveFile = File(saveDir, SimpleDateFormat("yyyyMMddHHmmss").format(Date()) + ".mp4")
+        if (mStarted) return super.onStartCommand(intent, flags, startId)
+        mStarted = true
+        mSaveFile = File(mSaveDir, SimpleDateFormat("yyyyMMddHHmmss").format(Date()) + ".mp4")
 
         val resultCode = intent.getIntExtra("resultCode", -1)
         val resultData = intent.getParcelableExtra<Intent>("resultData")
@@ -46,7 +45,7 @@ class ScreenRecorderService : Service() {
         val height = resources.displayMetrics.heightPixels
         val dpi = resources.displayMetrics.densityDpi
 
-        mediaRecorder = MediaRecorder().apply {
+        mMediaRecorder = MediaRecorder().apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setVideoSource(MediaRecorder.VideoSource.SURFACE)
             setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
@@ -55,14 +54,14 @@ class ScreenRecorderService : Service() {
             setVideoSize(width, height)
             setVideoFrameRate(30)
             setVideoEncodingBitRate(10000000)
-            setOutputFile(saveFile)
+            setOutputFile(mSaveFile)
             prepare()
             start()
         }
 
-        mediaProjection = mediaProjectionManager.getMediaProjection(resultCode, resultData!!)
-        virtualDisplay = mediaProjection.createVirtualDisplay("scScreenRecorder", width, height, dpi,
-                DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR, mediaRecorder.surface, null, null)
+        mMediaProjection = mMediaProjectionManager.getMediaProjection(resultCode, resultData!!)
+        mVirtualDisplay = mMediaProjection.createVirtualDisplay("scScreenRecorder", width, height, dpi,
+                DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR, mMediaRecorder.surface, null, null)
 
         return super.onStartCommand(intent, flags, startId)
     }
@@ -89,11 +88,11 @@ class ScreenRecorderService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mediaRecorder.stop()
-        mediaRecorder.release()
-        mediaProjection.stop()
-        virtualDisplay.release()
-        Toast.makeText(this, "$saveFile saved.", Toast.LENGTH_LONG).show()
+        mMediaRecorder.stop()
+        mMediaRecorder.release()
+        mMediaProjection.stop()
+        mVirtualDisplay.release()
+        Toast.makeText(this, "$mSaveFile saved.", Toast.LENGTH_LONG).show()
         stopForeground(true)
     }
 

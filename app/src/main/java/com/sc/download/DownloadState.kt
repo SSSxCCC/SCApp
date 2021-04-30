@@ -1,18 +1,18 @@
 package com.sc.download
 
 class DownloadState (  // 不包括url
-        var downloadedLength: Long,
-        var contentLength: Long,
-        var state: Int,
-        var time: Long) : Comparable<DownloadState> {
-    lateinit var url: String // 下载的地址，不参与存储！
+        var mDownloadedLength: Long,
+        var mContentLength: Long,
+        var mState: Int,
+        var mTime: Long) : Comparable<DownloadState> {
+    lateinit var mUrl: String // 下载的地址，不参与存储！
 
     override fun toString(): String {  // 不包括url
-        return "$downloadedLength $contentLength $state $time"
+        return "$mDownloadedLength $mContentLength $mState $mTime"
     }
 
     override fun compareTo(other: DownloadState): Int {
-        return other.time.compareTo(time)
+        return other.mTime.compareTo(mTime)
     }
 
     companion object {

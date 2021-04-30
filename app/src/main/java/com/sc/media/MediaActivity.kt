@@ -20,7 +20,6 @@ class MediaActivity : Activity(), MediaPlayer.OnVideoSizeChangedListener {
     lateinit var mSurfaceContainer: FrameLayout
     lateinit var mSurfaceView: SurfaceView
     lateinit var mMediaBinder: MediaService.MediaBinder
-
     var mVideoRatio = 0f
 
     val mServiceConnection = object : ServiceConnection {

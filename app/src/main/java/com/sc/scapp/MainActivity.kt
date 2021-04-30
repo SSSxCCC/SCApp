@@ -17,7 +17,8 @@ import com.sc.settings.SettingsActivity
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
-    private var drawerLayout: DrawerLayout? = null
+    private lateinit var mDrawerLayout: DrawerLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity() {
             setHomeAsUpIndicator(R.mipmap.ic_menu)
         }
 
-        drawerLayout = findViewById(R.id.drawer_layout)
+        mDrawerLayout = findViewById(R.id.drawer_layout)
 
         val navView = findViewById<NavigationView>(R.id.nav_view)
         navView.setCheckedItem(R.id.about)
@@ -65,7 +66,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> drawerLayout!!.openDrawer(GravityCompat.START)
+            android.R.id.home -> mDrawerLayout.openDrawer(GravityCompat.START)
             R.id.setting ->
                 //Intent intent = new Intent(Intent.ACTION_VIEW);
                 //intent.setData(Uri.parse("https://www.baidu.com/"));

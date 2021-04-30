@@ -15,7 +15,7 @@ import com.sc.screenrecorder.ScreenRecorderActivity
 import com.sc.web.WebActivity
 
 class ProgramAdapter(private val programList: List<Program>) : RecyclerView.Adapter<ProgramAdapter.ViewHolder>() {
-    private lateinit var context: Context
+    private lateinit var mContext: Context
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var cardView: CardView = itemView as CardView
@@ -24,8 +24,8 @@ class ProgramAdapter(private val programList: List<Program>) : RecyclerView.Adap
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        context = parent.context
-        val view = LayoutInflater.from(context).inflate(R.layout.program_item, parent, false)
+        mContext = parent.context
+        val view = LayoutInflater.from(mContext).inflate(R.layout.program_item, parent, false)
         val viewHolder = ViewHolder(view)
         viewHolder.cardView.setOnClickListener {
             val position = viewHolder.adapterPosition
@@ -33,11 +33,11 @@ class ProgramAdapter(private val programList: List<Program>) : RecyclerView.Adap
             when (program.nameId) {
                 R.string.file_manager -> { }
                 R.string.notebook -> { }
-                R.string.media -> { MediaActivity.actionStart(context) }
-                R.string.web -> WebActivity.actionStart(context)
-                R.string.download -> DownloadActivity.actionStart(context)
+                R.string.media -> { MediaActivity.actionStart(mContext) }
+                R.string.web -> WebActivity.actionStart(mContext)
+                R.string.download -> DownloadActivity.actionStart(mContext)
                 R.string.timer -> { }
-                R.string.screen_recorder -> ScreenRecorderActivity.actionStart(context)
+                R.string.screen_recorder -> ScreenRecorderActivity.actionStart(mContext)
             }
         }
         return viewHolder
@@ -46,7 +46,7 @@ class ProgramAdapter(private val programList: List<Program>) : RecyclerView.Adap
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val program = programList[position]
         holder.textView.setText(program.nameId)
-        Glide.with(context).load(program.imageId).into(holder.imageView)
+        Glide.with(mContext).load(program.imageId).into(holder.imageView)
     }
 
     override fun getItemCount(): Int {

@@ -14,86 +14,88 @@ import com.sc.scapp.R
 import java.util.*
 
 class DownloadActivity : AppCompatActivity() {
-    private val downloadStateList = ArrayList<DownloadState>()
-    private lateinit var downloadAdapter: DownloadAdapter
-    private lateinit var downloadBinder: DownloadBinder
-    private val serviceConnection: ServiceConnection = object : ServiceConnection {
+    private val mDownloadStateList = ArrayList<DownloadState>()
+    private lateinit var mDownloadAdapter: DownloadAdapter
+    private lateinit var mDownloadBinder: DownloadBinder
+
+    private val mServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName, service: IBinder) {
-            downloadBinder = service as DownloadBinder
-            downloadBinder.setDownloadListener(downloadListener)
+            mDownloadBinder = service as DownloadBinder
+            mDownloadBinder.setDownloadListener(mDownloadListener)
             val pref = getSharedPreferences(DownloadService.DOWNLOAD_SHARED_PREFERENCE_NAME, MODE_PRIVATE)
             val prefMap = pref.all
             for (url in prefMap.keys) {
                 val value = prefMap[url] as String?
                 val downloadState = DownloadState.fromString(value)
-                if (downloadState.state == DownloadState.DOWNLOADING && !downloadBinder.isDownloading(url)) {
-                    downloadState.state = DownloadState.DOWNLOAD_PAUSED
+                if (downloadState.mState == DownloadState.DOWNLOADING && !mDownloadBinder.isDownloading(url)) {
+                    downloadState.mState = DownloadState.DOWNLOAD_PAUSED
                 }
-                downloadState.url = url
-                downloadStateList.add(downloadState)
+                downloadState.mUrl = url
+                mDownloadStateList.add(downloadState)
             }
-            downloadStateList.sort()
-            downloadAdapter.notifyDataSetChanged()
-            downloadAdapter.setDownloadBinder(downloadBinder)
+            mDownloadStateList.sort()
+            mDownloadAdapter.notifyDataSetChanged()
+            mDownloadAdapter.setDownloadBinder(mDownloadBinder)
         }
 
         override fun onServiceDisconnected(name: ComponentName) {}
     }
-    private val downloadListener: DownloadListener = object : DownloadListener {
+
+    private val mDownloadListener = object : DownloadListener {
         override fun onProgress(url: String, downloadedLength: Long, contentLength: Long) {
-            for (i in downloadStateList.indices) {
-                val downloadState = downloadStateList[i]
-                if (downloadState.url == url) {
-                    downloadState.downloadedLength = downloadedLength
-                    downloadState.contentLength = contentLength
-                    downloadState.state = DownloadState.DOWNLOADING
-                    downloadAdapter.notifyItemChanged(i)
+            for (i in mDownloadStateList.indices) {
+                val downloadState = mDownloadStateList[i]
+                if (downloadState.mUrl == url) {
+                    downloadState.mDownloadedLength = downloadedLength
+                    downloadState.mContentLength = contentLength
+                    downloadState.mState = DownloadState.DOWNLOADING
+                    mDownloadAdapter.notifyItemChanged(i)
                     break
                 }
             }
         }
 
         override fun onSuccess(url: String) {
-            for (i in downloadStateList.indices) {
-                val downloadState = downloadStateList[i]
-                if (downloadState.url == url) {
-                    downloadState.state = DownloadState.DOWNLOAD_SUCCESS
-                    downloadAdapter.notifyItemChanged(i)
+            for (i in mDownloadStateList.indices) {
+                val downloadState = mDownloadStateList[i]
+                if (downloadState.mUrl == url) {
+                    downloadState.mState = DownloadState.DOWNLOAD_SUCCESS
+                    mDownloadAdapter.notifyItemChanged(i)
                     break
                 }
             }
         }
 
         override fun onFailed(url: String) {
-            for (i in downloadStateList.indices) {
-                val downloadState = downloadStateList[i]
-                if (downloadState.url == url) {
-                    downloadState.state = DownloadState.DOWNLOAD_SUCCESS
-                    downloadAdapter.notifyItemChanged(i)
+            for (i in mDownloadStateList.indices) {
+                val downloadState = mDownloadStateList[i]
+                if (downloadState.mUrl == url) {
+                    downloadState.mState = DownloadState.DOWNLOAD_SUCCESS
+                    mDownloadAdapter.notifyItemChanged(i)
                     break
                 }
             }
         }
 
         override fun onPaused(url: String) {
-            for (i in downloadStateList.indices) {
-                val downloadState = downloadStateList[i]
-                if (downloadState.url == url) {
-                    downloadState.state = DownloadState.DOWNLOAD_PAUSED
-                    downloadAdapter.notifyItemChanged(i)
+            for (i in mDownloadStateList.indices) {
+                val downloadState = mDownloadStateList[i]
+                if (downloadState.mUrl == url) {
+                    downloadState.mState = DownloadState.DOWNLOAD_PAUSED
+                    mDownloadAdapter.notifyItemChanged(i)
                     break
                 }
             }
         }
 
         override fun onCanceled(url: String) {
-            for (i in downloadStateList.indices) {
-                val downloadState = downloadStateList[i]
-                if (downloadState.url == url) {
+            for (i in mDownloadStateList.indices) {
+                val downloadState = mDownloadStateList[i]
+                if (downloadState.mUrl == url) {
                     //downloadState.setState(DownloadState.DOWNLOAD_CANCELED);
                     //downloadAdapter.notifyItemChanged(i);
-                    downloadStateList.removeAt(i)
-                    downloadAdapter.notifyItemRemoved(i)
+                    mDownloadStateList.removeAt(i)
+                    mDownloadAdapter.notifyItemRemoved(i)
                     break
                 }
             }
@@ -110,18 +112,18 @@ class DownloadActivity : AppCompatActivity() {
 
         val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(this@DownloadActivity)
-        downloadAdapter = DownloadAdapter(downloadStateList)
-        recyclerView.adapter = downloadAdapter
+        mDownloadAdapter = DownloadAdapter(mDownloadStateList)
+        recyclerView.adapter = mDownloadAdapter
         recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
         val bindIntent = Intent(this, DownloadService::class.java)
-        bindService(bindIntent, serviceConnection, BIND_AUTO_CREATE)
+        bindService(bindIntent, mServiceConnection, BIND_AUTO_CREATE)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        downloadBinder.setDownloadListener(null)
-        unbindService(serviceConnection)
+        mDownloadBinder.setDownloadListener(null)
+        unbindService(mServiceConnection)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

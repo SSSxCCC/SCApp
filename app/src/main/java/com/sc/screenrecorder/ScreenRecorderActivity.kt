@@ -14,8 +14,7 @@ import androidx.core.app.ActivityCompat
 import com.sc.scapp.R
 
 class ScreenRecorderActivity : AppCompatActivity() {
-
-    private lateinit var mediaProjectionManager: MediaProjectionManager
+    private lateinit var mMediaProjectionManager: MediaProjectionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,10 +28,10 @@ class ScreenRecorderActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), 0)
         }
 
-        mediaProjectionManager = getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
+        mMediaProjectionManager = getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
 
         findViewById<Button>(R.id.start_record_screen_button).setOnClickListener {
-            val captureIntent = mediaProjectionManager.createScreenCaptureIntent()
+            val captureIntent = mMediaProjectionManager.createScreenCaptureIntent()
             startActivityForResult(captureIntent, 0)
         }
 
