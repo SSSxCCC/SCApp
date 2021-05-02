@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sc.download.DownloadActivity
 import com.sc.media.MediaActivity
-import com.sc.screenrecorder.ScreenRecorderActivity
+import com.sc.recorder.RecorderActivity
 import com.sc.web.WebActivity
 
 class ProgramAdapter(private val programList: List<Program>) : RecyclerView.Adapter<ProgramAdapter.ViewHolder>() {
@@ -37,7 +37,7 @@ class ProgramAdapter(private val programList: List<Program>) : RecyclerView.Adap
                 R.string.web -> WebActivity.actionStart(mContext)
                 R.string.download -> DownloadActivity.actionStart(mContext)
                 R.string.timer -> { }
-                R.string.screen_recorder -> ScreenRecorderActivity.actionStart(mContext)
+                R.string.recorder -> RecorderActivity.actionStart(mContext)
             }
         }
         return viewHolder

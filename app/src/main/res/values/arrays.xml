@@ -9,4 +9,9 @@
         <item>reply</item>
         <item>reply_all</item>
     </string-array>
+    
+    <string-array name="record_content">
+        <item>Screen (mp4)</item>
+        <item>Mic (3gp)</item>
+    </string-array>
 </resources>

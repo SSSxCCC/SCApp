@@ -9,7 +9,7 @@
     <string name="web">Web</string>
     <string name="download">Download</string>
     <string name="timer">Timer</string>
-    <string name="screen_recorder">Screen Recorder</string>
+    <string name="recorder">Recorder</string>
     <string name="setting">Setting</string>
     <string name="about">About</string>
 
@@ -46,7 +46,7 @@
     <string name="re_download">Re-download</string>
     <string name="continue_download">Continue download</string>
 
-    <!-- ScreenRecorder -->
-    <string name="start_record_screen">Start Record Screen</string>
-    <string name="stop_record_screen">Stop Record Screen</string>
+    <!-- Recorder -->
+    <string name="start_record">Start Record</string>
+    <string name="stop_record">Stop Record</string>
 </resources>

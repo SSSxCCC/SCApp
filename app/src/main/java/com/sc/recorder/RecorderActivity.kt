@@ -1,4 +1,4 @@
-package com.sc.screenrecorder
+package com.sc.recorder
 
 import android.Manifest
 import android.content.Context
@@ -9,12 +9,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.Spinner
+import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import com.sc.scapp.R
 
-class ScreenRecorderActivity : AppCompatActivity() {
+class RecorderActivity : AppCompatActivity() {
     private lateinit var mMediaProjectionManager: MediaProjectionManager
+    private lateinit var spinner: Spinner
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,14 +32,22 @@ class ScreenRecorderActivity : AppCompatActivity() {
         }
 
         mMediaProjectionManager = getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
+        spinner = findViewById(R.id.spinner)
 
-        findViewById<Button>(R.id.start_record_screen_button).setOnClickListener {
-            val captureIntent = mMediaProjectionManager.createScreenCaptureIntent()
-            startActivityForResult(captureIntent, 0)
+        findViewById<Button>(R.id.start_record_button).setOnClickListener {
+            when ((spinner.selectedView as TextView).text) {
+                "Screen (mp4)" -> {
+                    val captureIntent = mMediaProjectionManager.createScreenCaptureIntent()
+                    startActivityForResult(captureIntent, 0)
+                }
+                "Mic (3gp)" -> {
+                    RecorderService.actionStartMic(this)
+                }
+            }
         }
 
-        findViewById<Button>(R.id.stop_record_screen_button).setOnClickListener {
-            stopService(Intent(this, ScreenRecorderService::class.java))
+        findViewById<Button>(R.id.stop_record_button).setOnClickListener {
+            stopService(Intent(this, RecorderService::class.java))
         }
     }
 
@@ -59,15 +70,14 @@ class ScreenRecorderActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        ScreenRecorderService.actionStart(this, resultCode, data)
+        RecorderService.actionStartScreen(this, resultCode, data)
     }
 
     companion object {
-
-        private val TAG = ScreenRecorderActivity::class.simpleName!!
+        private val TAG = RecorderActivity::class.simpleName!!
 
         fun actionStart(context: Context) {
-            val intent = Intent(context, ScreenRecorderActivity::class.java)
+            val intent = Intent(context, RecorderActivity::class.java)
             context.startActivity(intent)
         }
     }

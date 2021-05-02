@@ -73,14 +73,14 @@
             android:exported="true" />
 
         <activity
-            android:name="com.sc.screenrecorder.ScreenRecorderActivity"
-            android:icon="@drawable/ic_screen_recorder"
-            android:label="@string/screen_recorder"
+            android:name="com.sc.recorder.RecorderActivity"
+            android:icon="@drawable/ic_recorder"
+            android:label="@string/recorder"
             android:launchMode="singleTask"
-            android:taskAffinity="com.sc.screenrecorder" />
+            android:taskAffinity="com.sc.recorder" />
 
         <service
-            android:name="com.sc.screenrecorder.ScreenRecorderService"
+            android:name="com.sc.recorder.RecorderService"
             android:enabled="true"
             android:exported="true"
             android:foregroundServiceType="mediaProjection" />
