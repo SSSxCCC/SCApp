@@ -20,6 +20,8 @@ SCApp是我用来学习安卓app开发的项目。用kotlin语言使用最简单
 
 使用MediaRecorder实现录屏和录音。
 
+博客：[安卓实现录屏app](https://blog.csdn.net/SSSxCCC/article/details/119253938)
+
 ### 浏览器
 
 包名：com.sc.web
