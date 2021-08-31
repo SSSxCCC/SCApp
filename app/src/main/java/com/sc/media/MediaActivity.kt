@@ -50,7 +50,7 @@ class MediaActivity : Activity(), MediaPlayer.OnVideoSizeChangedListener {
         mSurfaceView = findViewById(R.id.surface_view)
 
         // 保证转屏时可以正确更新SurfaceView的尺寸
-        mSurfaceView.viewTreeObserver.addOnGlobalLayoutListener { updateSurfaceSize(mVideoRatio) }
+        mSurfaceView.viewTreeObserver.addOnGlobalLayoutListener { updateSurfaceSize() }
 
         // 连接绑定MediaService
         val bindIntent = Intent(this, MediaService::class.java)
@@ -77,20 +77,20 @@ class MediaActivity : Activity(), MediaPlayer.OnVideoSizeChangedListener {
     // 视频尺寸改变时调用
     override fun onVideoSizeChanged(mp: MediaPlayer?, width: Int, height: Int) {
         mVideoRatio = if (height == 0) 0f else width.toFloat() / height.toFloat()
-        updateSurfaceSize(mVideoRatio)
+        updateSurfaceSize()
     }
 
-    // 更新SurfaceView的尺寸
-    private fun updateSurfaceSize(videoRatio: Float) {
-        if (videoRatio <= 0) return
+    // 根据视频宽高比mVideoRatio和mSurfaceContainer的尺寸更新mSurfaceView的尺寸
+    private fun updateSurfaceSize() {
+        if (mVideoRatio <= 0) return
         val playerRatio = mSurfaceContainer.width.toFloat() / mSurfaceContainer.height.toFloat()
         val params = mSurfaceView.layoutParams
-        if (playerRatio > videoRatio) {
-            params.width = (mSurfaceContainer.height.toFloat() * videoRatio).toInt()
+        if (playerRatio > mVideoRatio) {
+            params.width = (mSurfaceContainer.height.toFloat() * mVideoRatio).toInt()
             params.height = mSurfaceContainer.height
-        } else if (playerRatio < videoRatio) {
+        } else if (playerRatio < mVideoRatio) {
             params.width = mSurfaceContainer.width
-            params.height = (mSurfaceContainer.width.toFloat() / videoRatio).toInt()
+            params.height = (mSurfaceContainer.width.toFloat() / mVideoRatio).toInt()
         } else {
             params.width = mSurfaceContainer.width
             params.height = mSurfaceContainer.height
