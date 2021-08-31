@@ -1,6 +1,5 @@
 package com.sc.media
 
-import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -14,9 +13,13 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.widget.Button
 import android.widget.FrameLayout
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.sc.scapp.R
 
-class MediaActivity : Activity(), MediaPlayer.OnVideoSizeChangedListener {
+class MediaActivity : AppCompatActivity(), MediaPlayer.OnVideoSizeChangedListener {
     lateinit var mSurfaceContainer: FrameLayout  // SurfaceView的全屏父View
     lateinit var mSurfaceView: SurfaceView  // 用来播放视频的SurfaceView
     lateinit var mMediaBinder: MediaService.MediaBinder  // 用来与MediaService通信的Binder对象
@@ -45,6 +48,13 @@ class MediaActivity : Activity(), MediaPlayer.OnVideoSizeChangedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_media)
+
+        // 隐藏SystemUI，包括导航栏、状态栏等
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        WindowInsetsControllerCompat(window, window.decorView).apply {
+            hide(WindowInsetsCompat.Type.systemBars())
+            systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
 
         mSurfaceContainer = findViewById(R.id.surface_container)
         mSurfaceView = findViewById(R.id.surface_view)

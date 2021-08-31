@@ -36,7 +36,7 @@
             android:launchMode="singleTask"
             android:taskAffinity="com.sc.media"
             android:configChanges="orientation|screenSize"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
 
         <service
             android:name="com.sc.media.MediaService"
