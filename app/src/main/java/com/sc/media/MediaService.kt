@@ -11,17 +11,20 @@ import android.view.SurfaceHolder
 import com.sc.scapp.R
 
 class MediaService : Service() {
-    val mMediaPlayer = MediaPlayer()
-    val mMediaBinder = MediaBinder()
-    var mIsForeground = false
+    val mMediaPlayer = MediaPlayer()  // 播放媒体文件的对象
+    val mMediaBinder = MediaBinder()  // 传给Activity，使得Activity可以与我们这个Service通信
+    var mIsForeground = false  // 为true时变成前台服务，为false时停止前台服务成为一般的后台服务
 
+    // 此类的方法都是从Activity调用的
     inner class MediaBinder : Binder() {
+        // 打开媒体文件
         fun open(uri: Uri) {
             mMediaPlayer.reset()
             mMediaPlayer.setDataSource(this@MediaService, uri)
             mMediaPlayer.prepareAsync()
         }
 
+        // 设置显示视频的surfaceHolder
         fun setDisplay(surfaceHolder: SurfaceHolder?,
                        videoSizeChangedListener: MediaPlayer.OnVideoSizeChangedListener?) {
             mMediaPlayer.setDisplay(surfaceHolder)
@@ -50,6 +53,7 @@ class MediaService : Service() {
         }
     }
 
+    // 如果正在播放媒体文件，则变成前台服务，否则变成一般的后台服务
     private fun updateServiceState() {
         if (mMediaPlayer.isPlaying != mIsForeground) {
             mIsForeground = !mIsForeground
@@ -61,6 +65,7 @@ class MediaService : Service() {
         }
     }
 
+    // 创建notification，变成前台服务
     private fun startForegroundNotification() {
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         val channel = NotificationChannel("Media", "Media", NotificationManager.IMPORTANCE_HIGH)

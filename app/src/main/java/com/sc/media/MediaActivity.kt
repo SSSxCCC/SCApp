@@ -17,11 +17,12 @@ import android.widget.FrameLayout
 import com.sc.scapp.R
 
 class MediaActivity : Activity(), MediaPlayer.OnVideoSizeChangedListener {
-    lateinit var mSurfaceContainer: FrameLayout
-    lateinit var mSurfaceView: SurfaceView
-    lateinit var mMediaBinder: MediaService.MediaBinder
-    var mVideoRatio = 0f
+    lateinit var mSurfaceContainer: FrameLayout  // SurfaceView的全屏父View
+    lateinit var mSurfaceView: SurfaceView  // 用来播放视频的SurfaceView
+    lateinit var mMediaBinder: MediaService.MediaBinder  // 用来与MediaService通信的Binder对象
+    var mVideoRatio = 0f  // 视频的宽高比
 
+    // 连接MediaService的对象
     val mServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName, service: IBinder) {
             mMediaBinder = service as MediaService.MediaBinder
@@ -47,11 +48,15 @@ class MediaActivity : Activity(), MediaPlayer.OnVideoSizeChangedListener {
 
         mSurfaceContainer = findViewById(R.id.surface_container)
         mSurfaceView = findViewById(R.id.surface_view)
+
+        // 保证转屏时可以正确更新SurfaceView的尺寸
         mSurfaceView.viewTreeObserver.addOnGlobalLayoutListener { updateSurfaceSize(mVideoRatio) }
 
+        // 连接绑定MediaService
         val bindIntent = Intent(this, MediaService::class.java)
         bindService(bindIntent, mServiceConnection, BIND_AUTO_CREATE)
 
+        // 打开媒体文件按钮
         val openMediaFileButton = findViewById<Button>(R.id.open_media_file_button)
         openMediaFileButton.setOnClickListener {
             Intent(Intent.ACTION_GET_CONTENT).apply {
@@ -62,17 +67,20 @@ class MediaActivity : Activity(), MediaPlayer.OnVideoSizeChangedListener {
         }
     }
 
+    // 得到打开媒体文件结果
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         val uri: Uri = data?.data ?: return
-        mMediaBinder.open(uri)
+        mMediaBinder.open(uri)  // 要MediaService开始播放媒体文件
     }
 
+    // 视频尺寸改变时调用
     override fun onVideoSizeChanged(mp: MediaPlayer?, width: Int, height: Int) {
         mVideoRatio = if (height == 0) 0f else width.toFloat() / height.toFloat()
         updateSurfaceSize(mVideoRatio)
     }
 
+    // 更新SurfaceView的尺寸
     private fun updateSurfaceSize(videoRatio: Float) {
         if (videoRatio <= 0) return
         val playerRatio = mSurfaceContainer.width.toFloat() / mSurfaceContainer.height.toFloat()
