@@ -52,11 +52,11 @@ class DownloadAdapter(private val downloadStateList: List<DownloadState>) : Recy
         holder.progressBar.progress = downloadState.mDownloadedLength.toInt()
         when (downloadState.mState) {
             DownloadState.DOWNLOADING -> {
-                holder.startPauseRefreshImageButton.setImageResource(R.drawable.ic_pause)
+                holder.startPauseRefreshImageButton.setImageResource(R.drawable.ic_pause_black)
                 holder.startPauseRefreshImageButton.setOnClickListener { mDownloadBinder?.pauseDownload(downloadState.mUrl) }
             }
             DownloadState.DOWNLOAD_PAUSED -> {
-                holder.startPauseRefreshImageButton.setImageResource(R.drawable.ic_play)
+                holder.startPauseRefreshImageButton.setImageResource(R.drawable.ic_play_black)
                 holder.startPauseRefreshImageButton.setOnClickListener { mDownloadBinder?.startDownload(downloadState.mUrl) }
             }
             else -> {

@@ -12,12 +12,61 @@
         android:layout_height="match_parent"
         android:layout_gravity="center" />
 
-    <Button
-        android:id="@+id/open_media_file_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:textAllCaps="false"
-        android:text="@string/open_media_file" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="84dp"
+        android:layout_gravity="bottom">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:paddingVertical="10dp"
+            android:background="#80000000">
+
+            <ImageButton
+                android:id="@+id/open_media_file_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/play_pause_media_button"
+                android:src="@drawable/ic_file"
+                android:scaleType="fitCenter"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/open_media_file" />
+
+            <ImageButton
+                android:id="@+id/play_pause_media_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_play_white"
+                android:scaleType="fitCenter"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/play_or_pause_media" />
+
+            <ImageButton
+                android:id="@+id/stop_media_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/play_pause_media_button"
+                android:src="@drawable/ic_stop"
+                android:scaleType="fitCenter"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/stop_play_media" />
+
+        </RelativeLayout>
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="@android:color/transparent"
+            android:stepSize="1.0"
+            android:valueFrom="0.0"
+            android:valueTo="1.0"
+            android:value="0.0" />
+
+    </RelativeLayout>
 
 </FrameLayout>

@@ -25,6 +25,8 @@
 
     <!-- Media -->
     <string name="open_media_file">Open media file</string>
+    <string name="play_or_pause_media">Play or pause media</string>
+    <string name="stop_play_media">Stop play media</string>
 
     <!-- Web -->
     <string name="refresh">Refresh</string>

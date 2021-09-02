@@ -11,33 +11,61 @@ import android.os.IBinder
 import android.util.Log
 import android.view.SurfaceHolder
 import android.view.SurfaceView
-import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import com.google.android.material.slider.Slider
+import com.google.android.material.timepicker.TimeFormat
 import com.sc.scapp.R
 
-class MediaActivity : AppCompatActivity(), MediaPlayer.OnVideoSizeChangedListener {
+class MediaActivity : AppCompatActivity() {
     lateinit var mSurfaceContainer: FrameLayout  // SurfaceView的全屏父View
     lateinit var mSurfaceView: SurfaceView  // 用来播放视频的SurfaceView
+    lateinit var mPlayPauseButton: ImageButton  // 控制媒体播放暂停的按钮
+    lateinit var mSlider: Slider  // 媒体播放进度条
+
     lateinit var mMediaBinder: MediaService.MediaBinder  // 用来与MediaService通信的Binder对象
+
     var mVideoRatio = 0f  // 视频的宽高比
+    var mSliderTrackingTouch = false  // mSlider是否正在被拖
+
+    val mMediaListener = object : MediaListener {
+        // 视频尺寸改变时调用
+        override fun onVideoSizeChanged(mp: MediaPlayer?, width: Int, height: Int) {
+            mVideoRatio = if (height == 0) 0f else width.toFloat() / height.toFloat()
+            updateSurfaceSize()
+        }
+
+        // 媒体播放完毕时调用
+        override fun onCompletion(mp: MediaPlayer?) {
+            mPlayPauseButton.setImageResource(R.drawable.ic_play_white)
+        }
+
+        // 播放进度改变时调用
+        override fun onProgress(position: Int, duration: Int) {
+            if (mSliderTrackingTouch) return
+            mSlider.valueTo = duration.coerceAtLeast(1).toFloat()
+            mSlider.value = position.toFloat()
+        }
+    }
 
     // 连接MediaService的对象
     val mServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName, service: IBinder) {
             mMediaBinder = service as MediaService.MediaBinder
+            mMediaBinder.setMediaListener(mMediaListener)
             mSurfaceView.holder.addCallback(object : SurfaceHolder.Callback {
                 override fun surfaceCreated(holder: SurfaceHolder) {
-                    mMediaBinder.setDisplay(holder, this@MediaActivity)
+                    mMediaBinder.setDisplay(holder)
                 }
                 override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
                     Log.d(TAG, "Surface changed! width=$width, height=$height")
                 }
                 override fun surfaceDestroyed(holder: SurfaceHolder) {
-                    mMediaBinder.setDisplay(null, null)
+                    mMediaBinder.setDisplay(null)
                 }
             })
         }
@@ -58,6 +86,8 @@ class MediaActivity : AppCompatActivity(), MediaPlayer.OnVideoSizeChangedListene
 
         mSurfaceContainer = findViewById(R.id.surface_container)
         mSurfaceView = findViewById(R.id.surface_view)
+        mPlayPauseButton = findViewById(R.id.play_pause_media_button)
+        mSlider = findViewById(R.id.slider)
 
         // 保证转屏时可以正确更新SurfaceView的尺寸
         mSurfaceView.viewTreeObserver.addOnGlobalLayoutListener { updateSurfaceSize() }
@@ -67,12 +97,44 @@ class MediaActivity : AppCompatActivity(), MediaPlayer.OnVideoSizeChangedListene
         bindService(bindIntent, mServiceConnection, BIND_AUTO_CREATE)
 
         // 打开媒体文件按钮
-        val openMediaFileButton = findViewById<Button>(R.id.open_media_file_button)
-        openMediaFileButton.setOnClickListener {
+        findViewById<ImageButton>(R.id.open_media_file_button).setOnClickListener {
             Intent(Intent.ACTION_GET_CONTENT).apply {
                 type = "*/*"
                 addCategory(Intent.CATEGORY_OPENABLE)
                 startActivityForResult(this, 0)
+            }
+        }
+
+        // 播放/暂停按钮
+        mPlayPauseButton.setOnClickListener {
+            if (mMediaBinder.playOrPause()) mPlayPauseButton.setImageResource(R.drawable.ic_pause_white)
+            else mPlayPauseButton.setImageResource(R.drawable.ic_play_white)
+        }
+
+        // 停止按钮
+        findViewById<ImageButton>(R.id.stop_media_button).setOnClickListener {
+            mMediaBinder.stop()
+            mPlayPauseButton.setImageResource(R.drawable.ic_play_white)
+        }
+
+        // 按住进度条时，让进度条显示格式为（分:秒.毫秒）的时间
+        mSlider.setLabelFormatter { value: Float ->
+            val millis = value.toInt()
+            val seconds = millis / 1000
+            val minutes = seconds / 60
+            "$minutes:${seconds % 60}.${millis % 1000}"
+        }
+
+        // 更新mSliderTrackingTouch，使得我们通过这个变量可以得知当前进度条是否正在被拖
+        mSlider.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
+            override fun onStartTrackingTouch(slider: Slider) { mSliderTrackingTouch = true }
+            override fun onStopTrackingTouch(slider: Slider) { mSliderTrackingTouch = false }
+        })
+
+        // 通过进度条调整播放进度
+        mSlider.addOnChangeListener { slider, value, fromUser ->
+            if (mSliderTrackingTouch and fromUser) {
+                mMediaBinder.seekTo(value.toInt())
             }
         }
     }
@@ -82,12 +144,7 @@ class MediaActivity : AppCompatActivity(), MediaPlayer.OnVideoSizeChangedListene
         super.onActivityResult(requestCode, resultCode, data)
         val uri: Uri = data?.data ?: return
         mMediaBinder.open(uri)  // 要MediaService开始播放媒体文件
-    }
-
-    // 视频尺寸改变时调用
-    override fun onVideoSizeChanged(mp: MediaPlayer?, width: Int, height: Int) {
-        mVideoRatio = if (height == 0) 0f else width.toFloat() / height.toFloat()
-        updateSurfaceSize()
+        mPlayPauseButton.setImageResource(R.drawable.ic_pause_white)
     }
 
     // 根据视频宽高比mVideoRatio和mSurfaceContainer的尺寸更新mSurfaceView的尺寸
@@ -110,7 +167,7 @@ class MediaActivity : AppCompatActivity(), MediaPlayer.OnVideoSizeChangedListene
 
     override fun onDestroy() {
         super.onDestroy()
-        mMediaBinder.setDisplay(null, null)
+        mMediaBinder.setMediaListener(null)
         unbindService(mServiceConnection)
     }
 

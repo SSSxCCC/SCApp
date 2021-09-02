@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/work/AndroidStudioProjects/SCApp/app/src/main/res/drawable/ic_file.xml" value="0.1" />
+        <entry key="..\:/work/AndroidStudioProjects/SCApp/app/src/main/res/drawable/ic_pause.xml" value="0.1" />
+        <entry key="..\:/work/AndroidStudioProjects/SCApp/app/src/main/res/drawable/ic_play.xml" value="0.1" />
+        <entry key="..\:/work/AndroidStudioProjects/SCApp/app/src/main/res/drawable/ic_stop.xml" value="0.1" />
+        <entry key="..\:/work/AndroidStudioProjects/SCApp/app/src/main/res/layout/activity_media.xml" value="0.1" />
+        <entry key="..\:/work/AndroidStudioProjects/SCApp/app/src/main/res/layout/test.xml" value="0.15625" />
+      </map>
+    </option>
+  </component>
   <component name="NullableNotNullManager">
     <option name="myDefaultNullable" value="androidx.annotation.Nullable" />
     <option name="myDefaultNotNull" value="androidx.annotation.NonNull" />

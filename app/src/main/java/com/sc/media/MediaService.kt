@@ -9,14 +9,39 @@ import android.os.IBinder
 import android.util.Log
 import android.view.SurfaceHolder
 import com.sc.scapp.R
+import java.util.*
 
 class MediaService : Service() {
     val mMediaPlayer = MediaPlayer()  // 播放媒体文件的对象
     val mMediaBinder = MediaBinder()  // 传给Activity，使得Activity可以与我们这个Service通信
     var mIsForeground = false  // 为true时变成前台服务，为false时停止前台服务成为一般的后台服务
+    var mMediaListener: MediaListener? = null  // mMediaPlayer的相关回调
+    var mTimer: Timer? = null  // 用来定时调用mMediaListener.onProgress回调方法的定时器
+    var mTimerTask = object : TimerTask() {  // 定时调用mMediaListener.onProgress回调方法的任务
+        override fun run() {
+            mMediaListener?.onProgress(mMediaPlayer.currentPosition, mMediaPlayer.duration)
+        }
+    }
 
     // 此类的方法都是从Activity调用的
     inner class MediaBinder : Binder() {
+        // 设置显示视频的surfaceHolder
+        fun setDisplay(surfaceHolder: SurfaceHolder?) {
+            mMediaPlayer.setDisplay(surfaceHolder)
+        }
+
+        // 设置一个额外的媒体播放完毕时回调
+        fun setMediaListener(mediaListener: MediaListener?) {
+            mMediaListener = mediaListener
+            mMediaPlayer.setOnVideoSizeChangedListener(mMediaListener)
+            if (mMediaListener == null) {
+                mTimer?.cancel()
+                mTimer = null
+            } else if (mTimer == null) {
+                mTimer = Timer().apply { schedule(mTimerTask, 0, 100) }
+            }
+        }
+
         // 打开媒体文件
         fun open(uri: Uri) {
             mMediaPlayer.reset()
@@ -24,11 +49,22 @@ class MediaService : Service() {
             mMediaPlayer.prepareAsync()
         }
 
-        // 设置显示视频的surfaceHolder
-        fun setDisplay(surfaceHolder: SurfaceHolder?,
-                       videoSizeChangedListener: MediaPlayer.OnVideoSizeChangedListener?) {
-            mMediaPlayer.setDisplay(surfaceHolder)
-            mMediaPlayer.setOnVideoSizeChangedListener(videoSizeChangedListener)
+        // 继续或暂停播放媒体，返回true代表继续播放了，返回false代表暂停播放了
+        fun playOrPause(): Boolean {
+            if (mMediaPlayer.isPlaying) mMediaPlayer.pause()
+            else mMediaPlayer.start()
+            return mMediaPlayer.isPlaying
+        }
+
+        // 停止播放媒体
+        fun stop() {
+            mMediaPlayer.stop()
+            updateServiceState()
+        }
+
+        // 调整播放进度
+        fun seekTo(millisecond: Int) {
+            mMediaPlayer.seekTo(millisecond)
         }
     }
 
@@ -44,6 +80,7 @@ class MediaService : Service() {
             updateServiceState()
         }
         mMediaPlayer.setOnCompletionListener {
+            mMediaListener?.onCompletion(it)
             updateServiceState()
         }
         mMediaPlayer.setOnErrorListener { mp, what, extra ->
