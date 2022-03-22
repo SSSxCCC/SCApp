@@ -53,6 +53,7 @@ class MediaService : Service() {
         fun playOrPause(): Boolean {
             if (mMediaPlayer.isPlaying) mMediaPlayer.pause()
             else mMediaPlayer.start()
+            updateServiceState()
             return mMediaPlayer.isPlaying
         }
 
@@ -109,7 +110,7 @@ class MediaService : Service() {
         notificationManager.createNotificationChannel(channel)
 
         val intent = Intent(this, MediaActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         val notification = Notification.Builder(this, "Media")
                 .setSmallIcon(R.drawable.ic_media)
                 .setContentTitle("Media")

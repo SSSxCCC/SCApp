@@ -47,8 +47,8 @@ class MediaActivity : AppCompatActivity() {
         // 播放进度改变时调用
         override fun onProgress(position: Int, duration: Int) {
             if (mSliderTrackingTouch) return
-            mSlider.valueTo = duration.coerceAtLeast(1).toFloat()
-            mSlider.value = position.toFloat()
+            mSlider.valueTo = duration.toFloat().coerceAtLeast(1f)
+            mSlider.value = position.toFloat().coerceAtLeast(mSlider.valueFrom).coerceAtMost(mSlider.valueTo)
         }
     }
 
