@@ -14,6 +14,8 @@ SCApp是我用来学习安卓app开发的项目。用kotlin语言使用最简单
 
 使用MediaProvider实现的可以播放视频和音频的播放器。
 
+博客：[安卓实现播放器app](https://blog.csdn.net/SSSxCCC/article/details/123797565)
+
 ### 录屏/录音
 
 包名：com.sc.recorder
