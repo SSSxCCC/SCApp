@@ -30,6 +30,8 @@ SCApp是我用来学习安卓app开发的项目。用kotlin语言使用最简单
 
 使用Webview实现的浏览器。
 
+博客：[安卓实现浏览器app](https://blog.csdn.net/SSSxCCC/article/details/123798922)
+
 ### 下载
 
 包名：com.sc.download

@@ -55,9 +55,9 @@ class WebActivity : AppCompatActivity() {
         }
 
         val uri = intent.data
-        if (uri == null) {
+        if (uri == null) {  // 未指定url则默认进入百度页面
             mWebView.loadUrl("https://www.baidu.com/")
-        } else {
+        } else {  // 进入指定的url页面
             mWebView.loadUrl(uri.toString())
         }
 
@@ -75,7 +75,7 @@ class WebActivity : AppCompatActivity() {
             false
         }
         // 处理点击下载文件的情况
-        mWebView.setDownloadListener(DownloadListener { url, userAgent, contentDisposition, mimetype, contentLength ->
+        mWebView.setDownloadListener { url, userAgent, contentDisposition, mimetype, contentLength ->
             this@WebActivity.url = url
             this@WebActivity.contentLength = contentLength
             if (ContextCompat.checkSelfPermission(this@WebActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -83,7 +83,7 @@ class WebActivity : AppCompatActivity() {
             } else {
                 download()
             }
-        })
+        }
     }
 
     private var url: String? = null
@@ -98,7 +98,7 @@ class WebActivity : AppCompatActivity() {
                 downloadBinder.startDownload(url!!, contentLength)
                 unbindService(this)
             }
-            override fun onServiceDisconnected(name: ComponentName) {}
+            override fun onServiceDisconnected(name: ComponentName) { }
         }, BIND_AUTO_CREATE)
     }
 
