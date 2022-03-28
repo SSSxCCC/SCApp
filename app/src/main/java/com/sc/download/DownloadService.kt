@@ -201,7 +201,7 @@ class DownloadService : Service() {
 
     private fun getNotification(title: String, text: String?, progress: Int): Notification {
         val intent = Intent(this, DownloadActivity::class.java)
-        val pi = PendingIntent.getActivity(this, 0, intent, 0)
+        val pi = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         return Notification.Builder(this, "Download").run {
             setSmallIcon(R.drawable.ic_download)
             setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_download))
