@@ -29,7 +29,7 @@ class RecorderService : Service() {
         mStarted = true
 
         mSaveDir = File(externalMediaDirs[0], "Recorder")
-        if (!mSaveDir.mkdirs()) Log.e(TAG, "Failed to create directory: $mSaveDir")
+        if (!mSaveDir.exists() and !mSaveDir.mkdirs()) Log.e(TAG, "Failed to create directory: $mSaveDir")
 
         when (intent.getIntExtra("recordType", RECORD_MIC)) {
             RECORD_SCREEN -> {
@@ -54,7 +54,7 @@ class RecorderService : Service() {
                     setVideoFrameRate(30)
                     setVideoEncodingBitRate(10000000)
                     setOutputFile(mSaveFile)
-                    prepare()
+                    prepare()  // TODO fix crash in Android S
                     start()
                 }
 
@@ -91,7 +91,7 @@ class RecorderService : Service() {
         notificationManager.createNotificationChannel(channel)
 
         val intent = Intent(this, RecorderActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         val notification = Notification.Builder(this, "Recorder")
                 .setSmallIcon(R.drawable.ic_recorder)
                 .setContentTitle("Recorder")
