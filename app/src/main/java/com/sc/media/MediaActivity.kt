@@ -4,13 +4,16 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.graphics.Rect
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
+import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
@@ -18,12 +21,12 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.google.android.material.slider.Slider
-import com.google.android.material.timepicker.TimeFormat
 import com.sc.scapp.R
 
 class MediaActivity : AppCompatActivity() {
     lateinit var mSurfaceContainer: FrameLayout  // SurfaceView的全屏父View
     lateinit var mSurfaceView: SurfaceView  // 用来播放视频的SurfaceView
+    lateinit var mMediaControlView: View  // 媒体播放工具栏
     lateinit var mPlayPauseButton: ImageButton  // 控制媒体播放暂停的按钮
     lateinit var mSlider: Slider  // 媒体播放进度条
 
@@ -73,6 +76,30 @@ class MediaActivity : AppCompatActivity() {
         override fun onServiceDisconnected(name: ComponentName?) { }
     }
 
+    private var mMediaControlViewVisibilityChangeTime = System.currentTimeMillis()
+    private val mHideMediaControlRunnable = Runnable { mMediaControlView.visibility = View.INVISIBLE }
+
+    // 媒体播放工具栏显示与自动隐藏
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        val currentTime = System.currentTimeMillis()
+        if ((currentTime - mMediaControlViewVisibilityChangeTime > 100)) {
+            mMediaControlView.handler.removeCallbacks(mHideMediaControlRunnable)
+            val xy = IntArray(2)
+            mMediaControlView.getLocationInWindow(xy)
+            val rect = Rect(xy[0], xy[1], xy[0] + mMediaControlView.width, xy[1] + mMediaControlView.height)
+            val touchInMediaControlView = rect.contains(ev.x.toInt(), ev.y.toInt())
+            if (mMediaControlView.visibility == View.VISIBLE && !touchInMediaControlView) {
+                mMediaControlView.visibility = View.INVISIBLE
+            } else {
+                mMediaControlView.visibility = View.VISIBLE
+                mMediaControlView.bringToFront()
+                mMediaControlView.handler.postDelayed(mHideMediaControlRunnable, 2000)
+            }
+            mMediaControlViewVisibilityChangeTime = currentTime
+        }
+        return super.dispatchTouchEvent(ev)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_media)
@@ -86,6 +113,7 @@ class MediaActivity : AppCompatActivity() {
 
         mSurfaceContainer = findViewById(R.id.surface_container)
         mSurfaceView = findViewById(R.id.surface_view)
+        mMediaControlView = findViewById(R.id.media_control)
         mPlayPauseButton = findViewById(R.id.play_pause_media_button)
         mSlider = findViewById(R.id.slider)
 
