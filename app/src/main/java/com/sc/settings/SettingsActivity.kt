@@ -56,7 +56,7 @@ class SettingsActivity : AppCompatActivity(),
         val args = pref.extras
         val fragment = supportFragmentManager.fragmentFactory.instantiate(
                 classLoader,
-                pref.fragment
+                pref.fragment.toString()
         ).apply {
             arguments = args
             setTargetFragment(caller, 0)

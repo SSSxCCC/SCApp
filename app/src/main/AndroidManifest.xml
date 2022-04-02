@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sc.scapp">
+        package="com.sc.scapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -8,50 +8,50 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
-
+            android:allowBackup="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme"
+            android:usesCleartextTraffic="true">
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+                android:name="com.sc.notebook.NotebookActivity"
+                android:exported="false" />
+        <activity
+                android:name=".MainActivity"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="com.sc.settings.SettingsActivity"
-            android:label="@string/settings"
-            android:launchMode="singleTask" />
-
+                android:name="com.sc.settings.SettingsActivity"
+                android:label="@string/settings"
+                android:launchMode="singleTask" />
         <activity
-            android:name="com.sc.media.MediaActivity"
-            android:icon="@drawable/ic_media"
-            android:label="@string/media"
-            android:launchMode="singleTask"
-            android:taskAffinity="com.sc.media"
-            android:configChanges="orientation|screenSize"
-            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
+                android:name="com.sc.media.MediaActivity"
+                android:configChanges="orientation|screenSize"
+                android:icon="@drawable/ic_media"
+                android:label="@string/media"
+                android:launchMode="singleTask"
+                android:taskAffinity="com.sc.media"
+                android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
 
         <service
-            android:name="com.sc.media.MediaService"
-            android:enabled="true"
-            android:exported="false" />
+                android:name="com.sc.media.MediaService"
+                android:enabled="true"
+                android:exported="false" />
 
         <activity
-            android:name="com.sc.web.WebActivity"
-            android:icon="@drawable/ic_web"
-            android:label="@string/web"
-            android:launchMode="singleTask"
-            android:taskAffinity="com.sc.web"
-            android:exported="true">
+                android:name="com.sc.web.WebActivity"
+                android:exported="true"
+                android:icon="@drawable/ic_web"
+                android:label="@string/web"
+                android:launchMode="singleTask"
+                android:taskAffinity="com.sc.web">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -62,31 +62,30 @@
                 <data android:scheme="https" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="com.sc.download.DownloadActivity"
-            android:icon="@drawable/ic_download"
-            android:label="@string/download"
-            android:launchMode="singleTask"
-            android:taskAffinity="com.sc.download" />
+                android:name="com.sc.download.DownloadActivity"
+                android:icon="@drawable/ic_download"
+                android:label="@string/download"
+                android:launchMode="singleTask"
+                android:taskAffinity="com.sc.download" />
 
         <service
-            android:name="com.sc.download.DownloadService"
-            android:enabled="true"
-            android:exported="true" />
+                android:name="com.sc.download.DownloadService"
+                android:enabled="true"
+                android:exported="true" />
 
         <activity
-            android:name="com.sc.recorder.RecorderActivity"
-            android:icon="@drawable/ic_recorder"
-            android:label="@string/recorder"
-            android:launchMode="singleTask"
-            android:taskAffinity="com.sc.recorder" />
+                android:name="com.sc.recorder.RecorderActivity"
+                android:icon="@drawable/ic_recorder"
+                android:label="@string/recorder"
+                android:launchMode="singleTask"
+                android:taskAffinity="com.sc.recorder" />
 
         <service
-            android:name="com.sc.recorder.RecorderService"
-            android:enabled="true"
-            android:exported="true"
-            android:foregroundServiceType="mediaProjection" />
+                android:name="com.sc.recorder.RecorderService"
+                android:enabled="true"
+                android:exported="true"
+                android:foregroundServiceType="mediaProjection" />
     </application>
 
 </manifest>

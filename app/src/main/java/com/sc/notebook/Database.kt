@@ -17,14 +17,14 @@ data class Note(
 @Dao
 interface NoteDao {
     @Insert
-    fun insert(vararg note: Note)
+    suspend fun insert(vararg note: Note)
 
     @Update
-    fun update(vararg note: Note)
+    suspend fun update(vararg note: Note)
 
     @Delete
-    fun delete(vararg note: Note)
+    suspend fun delete(vararg note: Note)
 
     @Query("SELECT * FROM Note")
-    fun getAll(): List<Note>
+    suspend fun getAll(): List<Note>
 }
