@@ -6,8 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material.TextField
+import androidx.compose.runtime.*
 import androidx.compose.ui.tooling.preview.Preview
 
 class NoteActivity : AppCompatActivity() {
@@ -37,7 +37,9 @@ private fun PreviewContent() {
 @Composable
 private fun NoteContent(note: Note) {
     Column {
-        Text(note.title)
-        Text(note.content)
+        var title by remember { mutableStateOf(note.title) }
+        TextField(value = title, onValueChange = { title = it })
+        var content by remember { mutableStateOf(note.content) }
+        TextField(value = content, onValueChange = { content = it })
     }
 }
