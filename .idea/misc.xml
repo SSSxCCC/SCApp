@@ -4,9 +4,16 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/work/AndroidStudioProjects/SCApp/app/src/main/res/drawable/ic_file.xml" value="0.1" />
+        <entry key="..\:/work/AndroidStudioProjects/SCApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1105" />
+        <entry key="..\:/work/AndroidStudioProjects/SCApp/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.1105" />
         <entry key="..\:/work/AndroidStudioProjects/SCApp/app/src/main/res/drawable/ic_pause.xml" value="0.1" />
+        <entry key="..\:/work/AndroidStudioProjects/SCApp/app/src/main/res/drawable/ic_pause_white.xml" value="0.1105" />
         <entry key="..\:/work/AndroidStudioProjects/SCApp/app/src/main/res/drawable/ic_play.xml" value="0.1" />
+        <entry key="..\:/work/AndroidStudioProjects/SCApp/app/src/main/res/drawable/ic_play_white.xml" value="0.1105" />
         <entry key="..\:/work/AndroidStudioProjects/SCApp/app/src/main/res/drawable/ic_stop.xml" value="0.1" />
+        <entry key="..\:/work/AndroidStudioProjects/SCApp/app/src/main/res/drawable/messages.xml" value="0.1105" />
+        <entry key="..\:/work/AndroidStudioProjects/SCApp/app/src/main/res/drawable/sync.xml" value="0.1105" />
+        <entry key="..\:/work/AndroidStudioProjects/SCApp/app/src/main/res/layout/activity_main.xml" value="0.15104166666666666" />
         <entry key="..\:/work/AndroidStudioProjects/SCApp/app/src/main/res/layout/activity_media.xml" value="0.1" />
         <entry key="..\:/work/AndroidStudioProjects/SCApp/app/src/main/res/layout/test.xml" value="0.15625" />
       </map>

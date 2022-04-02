@@ -1,6 +1,7 @@
 package com.sc.notebook
 
 import androidx.room.*
+import java.io.Serializable
 
 @Database(entities = [Note::class], version = 1)
 abstract class NoteDatabase : RoomDatabase() {
@@ -12,7 +13,7 @@ data class Note(
     @PrimaryKey val id: Long,
     val title: String,
     val content: String,
-)
+) : Serializable
 
 @Dao
 interface NoteDao {

@@ -30,10 +30,13 @@
                 android:launchMode="singleTask" />
         <activity
                 android:name="com.sc.notebook.NotebookActivity"
+                android:exported="false"
                 android:icon="@drawable/ic_notebook"
                 android:label="@string/notebook"
                 android:launchMode="singleTask"
-                android:taskAffinity="com.sc.notebook"
+                android:taskAffinity="com.sc.notebook" />
+        <activity
+                android:name="com.sc.notebook.NoteActivity"
                 android:exported="false" />
         <activity
                 android:name="com.sc.media.MediaActivity"
