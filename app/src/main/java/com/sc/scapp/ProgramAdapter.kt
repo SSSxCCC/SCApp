@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sc.download.DownloadActivity
 import com.sc.media.MediaActivity
+import com.sc.notebook.NotebookActivity
 import com.sc.recorder.RecorderActivity
 import com.sc.web.WebActivity
 
@@ -32,7 +33,7 @@ class ProgramAdapter(private val programList: List<Program>) : RecyclerView.Adap
             val program = programList[position]
             when (program.nameId) {
                 R.string.files -> { }
-                R.string.notebook -> { }
+                R.string.notebook -> { NotebookActivity.actionStart(mContext) }
                 R.string.media -> { MediaActivity.actionStart(mContext) }
                 R.string.web -> WebActivity.actionStart(mContext)
                 R.string.download -> DownloadActivity.actionStart(mContext)

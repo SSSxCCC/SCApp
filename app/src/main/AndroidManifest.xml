@@ -16,9 +16,6 @@
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
         <activity
-                android:name="com.sc.notebook.NotebookActivity"
-                android:exported="false" />
-        <activity
                 android:name=".MainActivity"
                 android:exported="true">
             <intent-filter>
@@ -31,6 +28,13 @@
                 android:name="com.sc.settings.SettingsActivity"
                 android:label="@string/settings"
                 android:launchMode="singleTask" />
+        <activity
+                android:name="com.sc.notebook.NotebookActivity"
+                android:icon="@drawable/ic_notebook"
+                android:label="@string/notebook"
+                android:launchMode="singleTask"
+                android:taskAffinity="com.sc.notebook"
+                android:exported="false" />
         <activity
                 android:name="com.sc.media.MediaActivity"
                 android:configChanges="orientation|screenSize"
