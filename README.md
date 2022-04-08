@@ -8,6 +8,12 @@ SCApp是我用来学习安卓app开发的项目。用kotlin语言使用最简单
 
 一个[material design](https://material.io/develop/android)风格的app首页
 
+### 笔记本
+
+包名：com.sc.notebook
+
+使用Compose + ViewModel + Room实现可以存储文本的笔记本。
+
 ### 媒体播放器
 
 包名：com.sc.media
