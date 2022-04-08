@@ -12,22 +12,16 @@ class NoteViewModel(private val noteRepository: NoteRepository) : ViewModel() {
         return@runBlocking Note(id, note.title, note.content)
     }
 
-    fun insert(note: Note) {
-        viewModelScope.launch {
-            noteRepository.insert(note)
-        }
+    fun insert(note: Note) = viewModelScope.launch {
+        noteRepository.insert(note)
     }
 
-    fun upate(note: Note) {
-        viewModelScope.launch {
-            noteRepository.update(note)
-        }
+    fun upate(note: Note) = viewModelScope.launch {
+        noteRepository.update(note)
     }
 
-    fun delete(note: Note) {
-        viewModelScope.launch {
-            noteRepository.delete(note)
-        }
+    fun delete(note: Note) = viewModelScope.launch {
+        noteRepository.delete(note)
     }
 }
 
@@ -38,5 +32,4 @@ class NoteViewModelFactory(private val noteRepository: NoteRepository) : ViewMod
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
-
 }
