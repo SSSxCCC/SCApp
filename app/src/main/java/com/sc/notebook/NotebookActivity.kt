@@ -65,7 +65,6 @@ private fun RootContent(notes: List<Note>, onAddNote: () -> Note) {
     Scaffold(floatingActionButton = {
         Icon(Icons.Rounded.Add, "New note", Modifier.size(100.dp).clickable {
             val note = onAddNote()
-            Log.e("AAABBBCCC", "id=" + note.id)
             NoteActivity.actionStart(context, note)
         })
     }, content = {
