@@ -14,6 +14,8 @@ SCApp是我用来学习安卓app开发的项目。用kotlin语言使用最简单
 
 使用Compose + ViewModel + Room实现可以存储文本的笔记本。
 
+博客：[安卓实现笔记本app](https://blog.csdn.net/SSSxCCC/article/details/124041104)
+
 ### 媒体播放器
 
 包名：com.sc.media
