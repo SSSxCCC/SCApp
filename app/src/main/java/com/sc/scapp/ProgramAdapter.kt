@@ -15,7 +15,7 @@ import com.sc.notebook.NotebookActivity
 import com.sc.recorder.RecorderActivity
 import com.sc.web.WebActivity
 
-class ProgramAdapter(private val programList: List<Program>) : RecyclerView.Adapter<ProgramAdapter.ViewHolder>() {
+class ProgramAdapter(private val mProgramList: List<Program>) : RecyclerView.Adapter<ProgramAdapter.ViewHolder>() {
     private lateinit var mContext: Context
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -30,7 +30,7 @@ class ProgramAdapter(private val programList: List<Program>) : RecyclerView.Adap
         val viewHolder = ViewHolder(view)
         viewHolder.cardView.setOnClickListener {
             val position = viewHolder.adapterPosition
-            val program = programList[position]
+            val program = mProgramList[position]
             when (program.nameId) {
                 R.string.files -> { }
                 R.string.notebook -> { NotebookActivity.actionStart(mContext) }
@@ -45,12 +45,12 @@ class ProgramAdapter(private val programList: List<Program>) : RecyclerView.Adap
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val program = programList[position]
+        val program = mProgramList[position]
         holder.textView.setText(program.nameId)
         Glide.with(mContext).load(program.imageId).into(holder.imageView)
     }
 
     override fun getItemCount(): Int {
-        return programList.size
+        return mProgramList.size
     }
 }
