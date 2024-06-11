@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="com.sc.scapp">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
 
     <application
             android:name="com.sc.notebook.NotebookApplication"
@@ -51,7 +53,8 @@
         <service
                 android:name="com.sc.media.MediaService"
                 android:enabled="true"
-                android:exported="false" />
+                android:exported="false"
+                android:foregroundServiceType="mediaPlayback" />
 
         <activity
                 android:name="com.sc.web.WebActivity"
@@ -80,7 +83,8 @@
         <service
                 android:name="com.sc.download.DownloadService"
                 android:enabled="true"
-                android:exported="true" />
+                android:exported="true"
+                android:foregroundServiceType="dataSync" />
 
         <activity
                 android:name="com.sc.recorder.RecorderActivity"

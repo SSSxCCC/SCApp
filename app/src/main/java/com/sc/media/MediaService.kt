@@ -2,6 +2,7 @@ package com.sc.media
 
 import android.app.*
 import android.content.Intent
+import android.content.pm.ServiceInfo
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Binder
@@ -117,7 +118,7 @@ class MediaService : Service() {
                 .setContentText("Playing...")
                 .setContentIntent(pendingIntent)
                 .build()
-        startForeground(123, notification)
+        startForeground(123, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
     }
 
     override fun onDestroy() {

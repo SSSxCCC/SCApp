@@ -2,8 +2,13 @@
 
 buildscript {
     ext {
-        kotlin_version = '1.6.10'
-        compose_version = '1.1.1'
+        // kotlin版本必须和compose版本是对应的，每个版本具体对应情况可以在这个网站查询：
+        // https://developer.android.com/jetpack/androidx/releases/compose-kotlin
+        // 注意：有的compose版本在远程仓库中无法找到，会报错："Could not find" androidx.compose.ui:ui-tooling:1.5.14！
+        // 可以将链接https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-tooling/1.5.14/ui-tooling-1.5.14.pom
+        // 放到浏览器里面尝试是否可以下载文件来确定这个版本是否可以下载。更换到可以下载的版本即可Sync/编译通过
+        kotlin_version = '1.9.20'
+        compose_version = '1.5.4'
     }
 
     repositories {
@@ -12,7 +17,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.2'
+        classpath 'com.android.tools.build:gradle:8.1.4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong

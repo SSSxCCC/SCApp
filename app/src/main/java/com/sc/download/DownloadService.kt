@@ -3,6 +3,7 @@ package com.sc.download
 import android.app.*
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.ServiceInfo
 import android.graphics.BitmapFactory
 import android.os.AsyncTask
 import android.os.Binder
@@ -135,7 +136,9 @@ class DownloadService : Service() {
                 if (mUrlDownloadTaskMap.containsKey(url)) {
                     return
                 } else if (mUrlDownloadTaskMap.isEmpty()) {
-                    startForeground(DOWNLOAD_FOREGROUND_SERVICE_NOTIFICATION_ID, getNotification(getString(R.string.download_task_is_running), null, -1))
+                    startForeground(DOWNLOAD_FOREGROUND_SERVICE_NOTIFICATION_ID,
+                        getNotification(getString(R.string.download_task_is_running), null, -1),
+                        ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
                 }
                 downloadTask = DownloadTask(listener)
                 mUrlDownloadTaskMap.put(url, downloadTask)

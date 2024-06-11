@@ -3,6 +3,7 @@ package com.sc.recorder
 import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ServiceInfo
 import android.hardware.display.DisplayManager
 import android.hardware.display.VirtualDisplay
 import android.media.MediaRecorder
@@ -23,6 +24,20 @@ class RecorderService : Service() {
     private lateinit var mMediaRecorder: MediaRecorder
     private var mMediaProjection: MediaProjection? = null
     private var mVirtualDisplay: VirtualDisplay? = null
+
+    private var mMediaProjectionCallback = object : MediaProjection.Callback() {
+        override fun onStop() {
+            Log.i(TAG, "MediaProjection.Callback.onStop")
+        }
+
+        override fun onCapturedContentResize(width: Int, height: Int) {
+            Log.i(TAG, "MediaProjection.Callback.onCapturedContentResize: width=$width, height=$height")
+        }
+
+        override fun onCapturedContentVisibilityChanged(isVisible: Boolean) {
+            Log.i(TAG, "MediaProjection.Callback.onCapturedContentVisibilityChanged: isVisible=$isVisible")
+        }
+    }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         if (mStarted) return super.onStartCommand(intent, flags, startId)
@@ -60,6 +75,7 @@ class RecorderService : Service() {
 
                 val mediaProjectionManager = getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
                 mMediaProjection = mediaProjectionManager.getMediaProjection(resultCode, resultData)
+                mMediaProjection!!.registerCallback(mMediaProjectionCallback, null)
                 mVirtualDisplay = mMediaProjection!!.createVirtualDisplay("scScreenRecorder", width, height, dpi,
                         DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR, mMediaRecorder.surface, null, null)
             }
@@ -98,7 +114,7 @@ class RecorderService : Service() {
                 .setContentText("Recording $recordContent...")
                 .setContentIntent(pendingIntent)
                 .build()
-        startForeground(123, notification)
+        startForeground(123, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION)
     }
 
     override fun onBind(intent: Intent): IBinder {
