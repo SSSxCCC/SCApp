@@ -98,6 +98,10 @@
                 android:enabled="true"
                 android:exported="true"
                 android:foregroundServiceType="mediaProjection" />
+
+        <activity
+                android:name="com.sc.opengl.OpenGLActivity"
+                android:exported="false" />
     </application>
 
 </manifest>

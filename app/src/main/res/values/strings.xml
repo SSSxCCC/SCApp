@@ -11,6 +11,7 @@
     <string name="timer">Timer</string>
     <string name="recorder">Recorder</string>
     <string name="setting">Setting</string>
+    <string name="opengl">OpenGL</string>
     <string name="about">About</string>
 
     <!-- Settings -->

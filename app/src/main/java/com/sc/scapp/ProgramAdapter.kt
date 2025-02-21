@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.sc.download.DownloadActivity
 import com.sc.media.MediaActivity
 import com.sc.notebook.NotebookActivity
+import com.sc.opengl.OpenGLActivity
 import com.sc.recorder.RecorderActivity
 import com.sc.web.WebActivity
 
@@ -39,6 +40,7 @@ class ProgramAdapter(private val mProgramList: List<Program>) : RecyclerView.Ada
                 R.string.download -> DownloadActivity.actionStart(mContext)
                 R.string.timer -> { }
                 R.string.recorder -> RecorderActivity.actionStart(mContext)
+                R.string.opengl -> OpenGLActivity.actionStart(mContext)
             }
         }
         return viewHolder
