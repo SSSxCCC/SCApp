@@ -46,6 +46,12 @@ SCApp是我用来学习安卓app开发的项目。用kotlin语言使用最简单
 
 使用AsyncTask和OkHttp实现的后台下载文件功能。
 
+### OpenGL渲染
+
+包名：com.sc.opengl
+
+使用OpenGL来绘制图像。
+
 ### 设置
 
 包名：com.sc.settings
@@ -54,4 +60,4 @@ SCApp是我用来学习安卓app开发的项目。用kotlin语言使用最简单
 
 ## 示例
 
-![image](https://github.com/SSSxCCC/SCApp/raw/master/demo/SCApp.jpg)
+![image](demo/SCApp.png)
